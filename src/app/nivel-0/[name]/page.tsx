@@ -1,7 +1,8 @@
+import Link from "next/link";
+
 import { Hobbies } from "@/components/Hobbies";
 import { Imagem } from "@/components/Imagem";
 import { MeuNome } from "@/components/MeuNome";
-import Link from "next/link";
 
 type PageProps = {
     params: Promise<{
