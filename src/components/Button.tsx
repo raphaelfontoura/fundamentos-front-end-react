@@ -1,16 +1,19 @@
-"use client";
-
 import { DOMAttributes, FC, ReactNode } from "react";
 
 type ButtonProps = {
     onClick: DOMAttributes<HTMLButtonElement>["onClick"];
+    color: "blue" | "red";
     children: ReactNode;
-    color: string;
 };
 
-export const Button: FC<ButtonProps> = ({ onClick, color, children}) => (
+const colorClasses = {
+    blue: "bg-blue-500 hover:bg-blue-700",
+    red: "bg-red-500 hover:bg-red-700",
+} as const;
+
+export const Button: FC<ButtonProps> = ({ onClick, color, children }) => (
     <button
-        className={`bg-${color}-500 text-white px-4 py-2 border rounded hover:bg-${color}-700`}
+        className={`${colorClasses[color]} text-white px-4 py-2 border rounded`}
         onClick={onClick}
     >
         {children}

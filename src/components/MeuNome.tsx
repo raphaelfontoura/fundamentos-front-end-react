@@ -1,5 +1,6 @@
 "use client";
 
+import { useParams } from "next/navigation";
 import { FC } from "react";
 
 type MeuNomeProps = {
@@ -8,10 +9,16 @@ type MeuNomeProps = {
     birthDate: Date;
 };
 
-export const MeuNome: FC<MeuNomeProps> = ({ name, age, birthDate }) => (
-    <>
-        <h1>Meu nome é {name}</h1>
-        <h2>Minha idade é {age}</h2>
-        <h3>Minha data de nascimento é {birthDate.toLocaleDateString("pt-BR")}</h3>
-    </>
-);
+export const MeuNome: FC<MeuNomeProps> = ({ name, age, birthDate }) => {
+    const params = useParams();
+
+    console.log(params);
+
+    return (
+        <>
+            <h1>Meu nome é {name}</h1>
+            <h2>Minha idade é {age}</h2>
+            <h3>Minha data de nascimento é {birthDate.toLocaleDateString("pt-BR")}</h3>
+        </>
+    );
+};

@@ -1,12 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./Button";
 
 export const Contador = () => {
 
     const [contador, setContador] = useState(0);
     const [coisa, setCoisa] = useState("");
+
+    // useEffect(() => {
+    //   console.log("Componente Contador atualizado!");
+    // });
+
+    useEffect(() => {
+      console.log("Componente Contador renderizado!");
+    }, []);
+
+    useEffect(() => {
+      console.log("State contador atualizado!");
+    }, [contador]);
+
+    useEffect(() => {
+      console.log("State coisa atualizado!");
+    }, [coisa]);
+
+    useEffect(() => {
+      console.log("State contador ou coisa atualizado!");
+    }, [contador, coisa]);
+    
 
     return (
         <div className="grid gap-y-4">
