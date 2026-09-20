@@ -1,7 +1,8 @@
 "use client";
 
-import { ContadorContext } from "@/context/ContadorContext";
 import { useContext } from "react";
+
+import { ContadorContext } from "@/context/ContadorContext";
 import { Button } from "./Button";
 
 export const ContadorGlobal = () => {
@@ -13,16 +14,16 @@ export const ContadorGlobal = () => {
                     
                     <p>Número atual: <span className="font-bold">{contador}</span></p>
                     <div className="flex gap-x-2">
-                        <Button onClick={() => setContador((c) => c + 3)} color="blue">
+                        <Button onClick={() => setContador((c) => (c ?? 0) + 3)} color="blue">
                             +3
                         </Button>
-                        <Button onClick={() => setContador(contador + 1)} color="blue">
+                        <Button onClick={() => setContador((contador ?? 0) + 1)} color="blue">
                             +1
                         </Button>
-                        <Button onClick={() => setContador((contador) => contador - 1)} color="red">
+                        <Button onClick={() => setContador((contador) => (contador ?? 0) - 1)} color="red">
                             -1
                         </Button>
-                        <Button onClick={() => setContador((contador) => contador - 3)} color="red">
+                        <Button onClick={() => setContador((contador) => (contador ?? 0) - 3)} color="red">
                             -3
                         </Button>
                     </div>
