@@ -1,10 +1,12 @@
 "use client";
 
-import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
+
+type ContadorType = number | null;
 
 type ContadorContextType = {
-    contador: number;
-    setContador: Dispatch<SetStateAction<number>>;
+    contador: ContadorType;
+    setContador: Dispatch<SetStateAction<ContadorType>>;
 }
 
 export const ContadorContext = createContext<ContadorContextType>({
@@ -15,7 +17,20 @@ export const ContadorContext = createContext<ContadorContextType>({
 // https://nextjs.org/docs/app/getting-started/server-and-client-components#context-providers
 export default function ContadorProvider({ children }: { children: ReactNode }) {
 
-    const [contador, setContador] = useState(0);
+    const [contador, setContador] = useState<ContadorType>(null);
+
+    useEffect(() => {
+        // const value = sessionStorage.getItem("contador");
+        const value = localStorage.getItem("contador");
+        setContador(value === null ? 0 : Number(value));
+    }, [])
+
+    useEffect(() => {
+        if (contador !== null) {
+            // sessionStorage.setItem("contador", contador.toString());
+            localStorage.setItem("contador", contador.toString());
+        }
+    }, [contador])
 
     return (<ContadorContext.Provider value={{ contador, setContador }}>
         {children}
