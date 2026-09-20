@@ -12,7 +12,7 @@ export default function BlogPage() {
         fetcher,
         {
             // errorRetryInterval: 5000,
-            // refreshInterval: 1000
+            // refreshInterval: 10000
         }
     )
 
