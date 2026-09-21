@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "jsonwebtoken": "^9.0.3",
     "next": "16.3.5",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
+    "@types/jsonwebtoken": "^9",
     "@types/node": "24.13.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

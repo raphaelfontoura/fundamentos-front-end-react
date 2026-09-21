@@ -1,9 +1,7 @@
-import { DOMAttributes, FC, ReactNode } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 
 type ButtonProps = {
-    onClick: DOMAttributes<HTMLButtonElement>["onClick"];
     color: "blue" | "red";
-    children: ReactNode;
 };
 
 const colorClasses = {
@@ -11,10 +9,18 @@ const colorClasses = {
     red: "bg-red-500 hover:bg-red-700",
 } as const;
 
-export const Button: FC<ButtonProps> = ({ onClick, color, children }) => (
+export const Button: FC<
+    ButtonProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "color">
+> = ({
+    onClick,
+    color,
+    children,
+    ...props
+}) => (
     <button
-        className={`${colorClasses[color]} text-white px-4 py-2 border rounded`}
+        className={`${colorClasses[color]} text-white px-4 py-2 border rounded font-bold`}
         onClick={onClick}
+        {...props}
     >
         {children}
     </button>

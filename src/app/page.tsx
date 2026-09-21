@@ -45,6 +45,11 @@ export default function Home() {
                                 Nível 3 - Community libraries
                             </Link>
                         </li>
+                        <li className="p-2">
+                            <Link className="underline" href="/login">
+                                Aula 4 - Login
+                            </Link>
+                        </li>
                     </ol>
                 </div>
                 <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
