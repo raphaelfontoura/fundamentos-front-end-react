@@ -1,5 +1,7 @@
 "use client";
 
+import Cookies from "js-cookie";
+import jwt from "jsonwebtoken";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
@@ -10,7 +12,7 @@ type User = {
 type AuthContextProps = {
     user: User | null;
     token: string | null;
-    isHydrated: boolean;
+    isReady: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
 };
@@ -20,25 +22,38 @@ const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
-    const [isHydrated, setIsHydrated] = useState(false);
+    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        const restoreSession = async () => {
-            try {
-                const res = await fetch("/api/auth", {
-                    credentials: "include",
-                });
+        const restoreSession = () => {
+            const savedToken = Cookies.get("token");
 
-                if (res.ok) {
-                    const data = await res.json();
-                    setUser(data.user);
+            if (!savedToken) {
+                setUser(null);
+                setToken(null);
+                setIsReady(true);
+                return;
+            }
+
+            try {
+                const decoded = jwt.decode(savedToken) as Partial<User> | null;
+
+                if (!decoded || !decoded.email || !decoded.role) {
+                    throw new Error("Token inválido");
                 }
+
+                setToken(savedToken);
+                setUser({ email: decoded.email, role: decoded.role as User["role"] });
+            } catch {
+                Cookies.remove("token");
+                setToken(null);
+                setUser(null);
             } finally {
-                setIsHydrated(true);
+                setIsReady(true);
             }
         };
 
-        void restoreSession();
+        restoreSession();
     }, []);
 
     const login = async (email: string, password: string) => {
@@ -56,22 +71,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (res.ok) {
             setToken(data.token);
             setUser(data.user);
-            setIsHydrated(true);
+            setIsReady(true);
         } else {
             throw new Error(data.message);
         }
     };
 
     const logout = () => {
+        Cookies.remove("token");
         setToken(null);
         setUser(null);
-        setIsHydrated(false);
-        void fetch("/api/auth", { method: "DELETE", credentials: "include" })
-            .finally(() => setIsHydrated(true));
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, isHydrated, login, logout }}>
+        <AuthContext.Provider value={{ user, token, isReady, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

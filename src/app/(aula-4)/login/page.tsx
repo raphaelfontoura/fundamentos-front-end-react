@@ -8,7 +8,7 @@ import { Button } from "@/components/Button";
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useAuth();
+    const { login, isReady } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e: React.SubmitEvent) => {
@@ -20,6 +20,8 @@ export default function LoginPage() {
             console.error(err);
         }
     };
+
+    if (!isReady) return null;
 
     return (
         <div className="flex min-h-[calc(100dvh-4rem)] w-full items-center justify-center">

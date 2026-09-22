@@ -5,19 +5,17 @@ import { useAuth } from "@/context/aula-4/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-
 export default function Dashboard() {
-    const { user, logout, isHydrated } = useAuth();
+    const { user, logout, isReady } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
-        if (!isHydrated) return;
-        if (!user) {
-            router.push("/login");
+        if (isReady && !user) {
+            router.replace("/login");
         }
-    }, [isHydrated, user, router]);
+    }, [isReady, user, router]);
 
-    if (!isHydrated || !user) return null;
+    if (!isReady || !user) return null;
 
     return (
         <div className="grid gap-4">
