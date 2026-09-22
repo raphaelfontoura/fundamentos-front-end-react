@@ -7,7 +7,7 @@ export async function middleware(req: NextRequest) {
     if (!token) return NextResponse.redirect(new URL("/login", req.url));
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+        const decoded = jwt.decode(token);
 
         const role = typeof decoded === "object" && decoded !== null && "role" in decoded
             ? decoded.role
@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest) {
         }
 
     } catch {
-        return NextResponse.redirect(new URL("/login", req.url));
+        return NextResponse.redirect(new URL("/", req.url));
     }   
 }
 
