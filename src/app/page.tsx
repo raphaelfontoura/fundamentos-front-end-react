@@ -46,8 +46,8 @@ export default function Home() {
                             </Link>
                         </li>
                         <li className="p-2">
-                            <Link className="underline" href="/login">
-                                Aula 4 - Login
+                            <Link className="underline" href="/dashboard">
+                                Aula 4 - Login / Dashboard
                             </Link>
                         </li>
                     </ol>

@@ -7,16 +7,17 @@ import { useEffect } from "react";
 
 
 export default function Dashboard() {
-    const { user, logout } = useAuth();
+    const { user, logout, isHydrated } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
+        if (!isHydrated) return;
         if (!user) {
             router.push("/login");
         }
-    }, [user]);
+    }, [isHydrated, user, router]);
 
-    if (!user) return null;
+    if (!isHydrated || !user) return null;
 
     return (
         <div className="grid gap-4">

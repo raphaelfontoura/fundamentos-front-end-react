@@ -10,6 +10,7 @@ type User = {
 type AuthContextProps = {
     user: User | null;
     token: string | null;
+    isHydrated: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
 };
@@ -19,13 +20,18 @@ const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
+    const [isHydrated, setIsHydrated] = useState(false);
 
     useEffect(() => {
         const savedToken = localStorage.getItem("token");
         const savedUser = localStorage.getItem("user");
-        if (savedToken && savedUser) {
-            setToken(savedToken);
-            setUser(JSON.parse(savedUser));
+        try {
+            if (savedToken && savedUser) {
+                setToken(savedToken);
+                setUser(JSON.parse(savedUser));
+            }
+        } finally {
+            setIsHydrated(true);
         }
     }, []);
 
@@ -55,7 +61,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, login, logout }}>
+        <AuthContext.Provider value={{ user, token, isHydrated, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
