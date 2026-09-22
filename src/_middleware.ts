@@ -2,10 +2,9 @@ import jwt from 'jsonwebtoken';
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
-    const token = req.headers.get("authorization")?.split(" ")[1];
-    console.log(token);
+    const token = req.cookies.get("token")?.value;
     
-    if (!token) return NextResponse.next();
+    if (!token) return NextResponse.redirect(new URL("/login", req.url));
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!);

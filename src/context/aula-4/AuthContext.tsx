@@ -23,22 +23,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isHydrated, setIsHydrated] = useState(false);
 
     useEffect(() => {
-        const savedToken = localStorage.getItem("token");
-        const savedUser = localStorage.getItem("user");
-        try {
-            if (savedToken && savedUser) {
-                setToken(savedToken);
-                setUser(JSON.parse(savedUser));
+        const restoreSession = async () => {
+            try {
+                const res = await fetch("/api/auth", {
+                    credentials: "include",
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    setUser(data.user);
+                }
+            } finally {
+                setIsHydrated(true);
             }
-        } finally {
-            setIsHydrated(true);
-        }
+        };
+
+        void restoreSession();
     }, []);
 
     const login = async (email: string, password: string) => {
         const res = await fetch("/api/auth", {
             method: "POST",
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
         });
 
         const data = await res.json();
@@ -46,8 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (res.ok) {
             setToken(data.token);
             setUser(data.user);
-            localStorage.setItem("token", data.token);
-            localStorage.setItem("user", JSON.stringify(data.user));
+            setIsHydrated(true);
         } else {
             throw new Error(data.message);
         }
@@ -56,8 +65,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = () => {
         setToken(null);
         setUser(null);
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
+        setIsHydrated(false);
+        void fetch("/api/auth", { method: "DELETE", credentials: "include" })
+            .finally(() => setIsHydrated(true));
     };
 
     return (
