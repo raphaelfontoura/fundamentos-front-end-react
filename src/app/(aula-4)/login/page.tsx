@@ -15,7 +15,7 @@ export default function LoginPage() {
         e.preventDefault();
         try {
             await login(email, password);
-            router.push("/dashboard");
+            router.replace("/dashboard");
         } catch (err) {
             console.error(err);
         }

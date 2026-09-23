@@ -19,7 +19,7 @@ export default function Dashboard() {
 
     const logoutClick = () => {
         logout();
-        router.push("/");
+        router.replace("/login");
     }
 
     return (
