@@ -50,6 +50,16 @@ export default function Home() {
                                 Aula 4 - Login / Dashboard
                             </Link>
                         </li>
+                        <li className="p-2">
+                            <Link className="underline" href="/test-client">
+                                Aula 4 - Teste client
+                            </Link>
+                        </li>
+                        <li className="p-2">
+                            <Link className="underline" href="/test-server">
+                                Aula 4 - Teste server
+                            </Link>
+                        </li>
                     </ol>
                 </div>
                 <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
