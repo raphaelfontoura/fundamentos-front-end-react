@@ -1,4 +1,3 @@
-import { PostType } from "@/app/types";
 import { fetchWithToken } from "@/lib/aula-4/fetchWithToken";
 import { cookies } from "next/headers";
 
