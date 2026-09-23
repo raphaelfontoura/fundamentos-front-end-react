@@ -9,24 +9,19 @@ export default function Dashboard() {
     const { user, logout, isReady } = useAuth();
     const router = useRouter();
 
-    // useEffect(() => {
-    //     if (isReady && !user) {
-    //         router.replace("/login");
-    //     }
-    // }, [isReady, user, router]);
+    useEffect(() => {
+        if (isReady && !user) {
+            router.replace("/login");
+        }
+    }, [isReady, user, router]);
 
     if (!isReady || !user) return null;
-
-    const logoutClick = () => {
-        logout();
-        router.replace("/login");
-    }
 
     return (
         <div className="grid gap-4">
             <h1>Bem-vindo, {user.email}!</h1>
             <p>Sua role: {user.role}</p>
-            <Button color="blue" onClick={logoutClick}>Sair</Button>
+            <Button color="blue" onClick={logout}>Sair</Button>
         </div>
     );
 }

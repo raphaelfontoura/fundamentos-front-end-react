@@ -2,6 +2,8 @@
 
 import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type User = {
@@ -23,6 +25,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [isReady, setIsReady] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         const restoreSession = () => {
@@ -81,6 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         Cookies.remove("token");
         setToken(null);
         setUser(null);
+        router.push("/login");
     };
 
     return (

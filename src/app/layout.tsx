@@ -13,14 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "Next.js app",
+    title: "Fundamentos de Front-end com React",
     description: "Fundamentos de Front-end com React",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html
-            lang="en"
+            lang="pt-BR"
             className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
         >
             <body className="p-4">
