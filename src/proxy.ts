@@ -14,18 +14,12 @@ export async function proxy(req: NextRequest) {
     try {
         const decoded = jwt.decode(token) as TokenPayload | null;
 
-        // if (!decoded?.exp || decoded.exp <= Math.floor(Date.now() / 1000)) {
-        //     const response = NextResponse.redirect(new URL("/login", req.url));
-        //     response.cookies.delete("token");
-        //     return response;
-        // }
-
         const role = typeof decoded === "object" && decoded !== null && "role" in decoded
             ? decoded.role
             : undefined;
 
         if (req.nextUrl.pathname.startsWith("/dashboard") && role !== "admin") {
-            return NextResponse.redirect(new URL("/login", req.url));
+            return NextResponse.redirect(new URL("/unauthorized", req.url));
         }
 
     } catch {

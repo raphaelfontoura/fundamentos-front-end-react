@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server";
 import jwt from 'jsonwebtoken';
 
+const fakeUsers = ["admin@admin.com", "user@user.com"];
+
 export async function DELETE() {
     const response = NextResponse.json({ message: "Sessão encerrada" });
     response.cookies.delete("token");
@@ -31,8 +33,9 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     // Simulação simples
-    if (email === "admin@admin.com" && password === "123456") {
-        const user = { email, role: "admin" }
+    if (fakeUsers.includes(email) && password === "123456") {
+        const role = email.split("@")[0];
+        const user = { email, role }
         const token = jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
         const response = NextResponse.json({ token, user });
