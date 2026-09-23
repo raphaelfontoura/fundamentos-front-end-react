@@ -19,6 +19,7 @@ export default function Dashboard() {
 
     return (
         <div className="grid gap-4">
+            <h1 className="text-3xl font-bold">Dashboard - admin</h1>
             <h1>Bem-vindo, {user.email}!</h1>
             <p>Sua role: {user.role}</p>
             <Button color="blue" onClick={logout}>Sair</Button>
